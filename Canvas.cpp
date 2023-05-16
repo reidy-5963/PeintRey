@@ -104,7 +104,7 @@ void Canvas::Draw() {
 
 	
 
-	Novice::DrawBox(int(mausePos_.x) - 8, int(mausePos_.y) - 8, 16, 16, 0.0f, color_, kFillModeSolid);
+	Novice::DrawBox(int(mausePos_.x) - 8, int(mausePos_.y) - 8, canvasDotSize_, canvasDotSize_, 0.0f, color_, kFillModeSolid);
 
 
 	colorData_->Draw();
@@ -117,14 +117,14 @@ void Canvas::CanvasDraw(const int canWidth, const int canHeight, const int dotSi
 	
 
 	for (int y = 0; y < kHeightSubdivi; y++) {
-		InVector2 yLine[2];
+		InVector2 yLine[2]{};
 		yLine[0] = { 0, kGridEvery * y };
 		yLine[1] = { kGridEvery * canWidth, kGridEvery * y };
 
 		Novice::DrawLine(yLine[0].x, yLine[0].y, yLine[1].x, yLine[1].y, WHITE);
 	}
 	for (int x = 0; x < kWidthSubdivi; x++) {
-		InVector2 xLine[2];
+		InVector2 xLine[2]{};
 		xLine[0] = { kGridEvery * x ,0 };
 		xLine[1] = { kGridEvery * x ,kGridEvery * canHeight };
 

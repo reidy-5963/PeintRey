@@ -6,10 +6,14 @@ void CSys::Initialize() {
 	
 	if (canvas_ == nullptr) {
 		canvas_ = new Canvas();
-		canvas_->Initialize(canvasWidth_, canvasHeight_, 16);
+		canvas_->Initialize(canvasWidth_, canvasHeight_, dotSize_);
 	}
-
-	
+	//if (canvas_ == nullptr) {
+	//	pngData_ = new PngData();
+	//	pngData_->SetCanvasData(canvas_->GetCanvasData());
+	//	pngData_->SetSize(canvasWidth_, canvasHeight_, 16);
+	//	pngData_->Initialize();
+	//}
 }
 
 void CSys::Update() {
@@ -43,11 +47,16 @@ void CSys::Update() {
 		if (keys_[DIK_LEFTARROW] && !preKeys_[DIK_LEFTARROW]) {
 			canvasWidth_--;
 		}
-
+		if (keys_[DIK_O] && !preKeys_[DIK_O]) {
+			dotSize_++;
+		}
+		if (keys_[DIK_P] && !preKeys_[DIK_P]) {
+			dotSize_--;
+		}
 
 		
 		if (keys_[DIK_Q] && !preKeys_[DIK_Q]) {
-			CreateCanvas(canvasWidth_, canvasHeight_);
+			CreateCanvas(canvasWidth_, canvasHeight_, dotSize_);
 		}
 	}
 }
@@ -57,13 +66,13 @@ void CSys::Draw() {
 		canvas_->Draw();
 	}
 	if (canvas_ == nullptr) {
-		Novice::ScreenPrintf(0, 0, "W : %d, H : %d", canvasWidth_, canvasHeight_);
+		Novice::ScreenPrintf(0, 0, "W : %d, H : %d, D : %d", canvasWidth_, canvasHeight_, dotSize_);
 	}
 }
 
-void CSys::CreateCanvas(const int width, const int height) {
+void CSys::CreateCanvas(const int width, const int height, const int dotSize) {
 	if (canvas_ == nullptr) {
 		canvas_ = new Canvas();
-		canvas_->Initialize(width, height, 16);
+		canvas_->Initialize(width, height, dotSize);
 	}
 }
