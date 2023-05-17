@@ -43,7 +43,7 @@ private:
 
 	int canvasWidth_;
 	int canvasHeight_;
-	
+	int textureHandle_;
 
 	std::vector<int> mapX_;
 	std::vector<std::vector<int>> map_;

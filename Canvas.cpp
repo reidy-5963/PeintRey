@@ -8,16 +8,16 @@ void Canvas::Initialize(const int kWidth, const int kHeight, int canvasDotSize) 
 	canvasDotSize_ = canvasDotSize;
 
 	for (int i = 0; i < canvasWidth_ ; i++) {
-		mapX_.emplace_back(i);
-		canvasDataX_.emplace_back(i);
-		mapX_[i] = NONE;
-		canvasDataX_[i] = 0x00000000;
+		mapX_.emplace_back(i) = NONE;
+		canvasDataX_.emplace_back(i) = 0x00000000;
+		/*mapX_[i] = NONE;
+		canvasDataX_[i] = 0x00000000;*/
 	}
 	for (int i = 0; i < canvasHeight_ ; i++) {
-		map_.emplace_back(i);
-		canvasData_.emplace_back(i);
-		map_[i] = mapX_;
-		canvasData_[i] = canvasDataX_;
+		map_.emplace_back(i) = mapX_;
+		canvasData_.emplace_back(i) = canvasDataX_;
+		/*map_[i] = mapX_;
+		canvasData_[i] = canvasDataX_;*/
 	}
 	
 
@@ -28,13 +28,14 @@ void Canvas::Initialize(const int kWidth, const int kHeight, int canvasDotSize) 
 	colorData_->SetPos({ 40, 20 });
 
 	colorData_->Initialize();
+	textureHandle_ = Novice::LoadTexture("./Resources/WhiteBase.png");
 }
 
 void Canvas::BModeIni() {
 	mode_->SetCanvas(this);
-	mode_->SetCanvasData(canvasData_);
-	mode_->SetMap(map_);
 	mode_->SetCanSize(canvasWidth_, canvasHeight_);
+	mode_->SetCanvasData(&canvasData_);
+	mode_->SetMap(&map_);
 }
 
 void Canvas::Update() {
@@ -46,7 +47,7 @@ void Canvas::Update() {
 	color_ = colorData_->GetColor();
 
 	if (mausePos_.y / canvasDotSize_ >= 0 && mausePos_.x / canvasDotSize_ >= 0 &&
-		mausePos_.y / canvasDotSize_ < canvasHeight_ - 1 && mausePos_.x / canvasDotSize_ < canvasWidth_ - 1
+		mausePos_.y / canvasDotSize_ < canvasHeight_ && mausePos_.x / canvasDotSize_ < canvasWidth_
 		) {
 		int xIndex = mausePos_.x / canvasDotSize_;
 		int yIndex = mausePos_.y / canvasDotSize_;
@@ -61,9 +62,9 @@ void Canvas::Update() {
 		mode_->SetColor(color_);
 
 		mode_->Update();
-		canvasData_ = mode_->GetCanvasData();
+		/*canvasData_ = mode_->GetCanvasData();
 		map_ = mode_->GetMap();
-		color_ = mode_->GetColor();
+		color_ = mode_->GetColor();*/
 	}
 	if (keys_[DIK_1]) {
 		delete mode_;
@@ -96,8 +97,16 @@ void Canvas::Draw() {
 	CanvasDraw(canvasWidth_, canvasHeight_, canvasDotSize_);
 	for (int i = 0; i < canvasHeight_; i++) {
 		for (int j = 0; j < canvasWidth_; j++) {
-			if (canvasData_[i][j]) {
-				Novice::DrawBox(j * canvasDotSize_, i * canvasDotSize_, canvasDotSize_, canvasDotSize_, 0.0f, canvasData_[i][j], kFillModeSolid);
+			if (canvasData_[i][j] != 0x00000000) {
+				//Novice::DrawBox(j * canvasDotSize_, i * canvasDotSize_, canvasDotSize_, canvasDotSize_, 0.0f, canvasData_[i][j], kFillModeSolid);
+			
+				Novice::DrawQuad(
+					j * canvasDotSize_, i * canvasDotSize_,
+					j * canvasDotSize_ + canvasDotSize_, i * canvasDotSize_,
+					j * canvasDotSize_, i * canvasDotSize_ + canvasDotSize_,
+					j * canvasDotSize_ + canvasDotSize_, i * canvasDotSize_ + canvasDotSize_,
+					0, 0, canvasDotSize_, canvasDotSize_, textureHandle_, canvasData_[i][j]
+				);
 			}
 		}
 	}
@@ -131,5 +140,5 @@ void Canvas::CanvasDraw(const int canWidth, const int canHeight, const int dotSi
 		Novice::DrawLine(xLine[0].x, xLine[0].y, xLine[1].x, xLine[1].y, WHITE);
 	}
 
-
+	Novice::ScreenPrintf(300, 300, "%d, %d", mausePos_.x, mausePos_.y);
 }

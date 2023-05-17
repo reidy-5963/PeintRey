@@ -24,16 +24,20 @@ public:
 
 	void CreateCanvas(const int width, const int height, const int dotSize);
 
-	//void Output();
+	//void Output(std::vector<std::vector<uint32_t>> canvasData);
+
+	/*void SetTmpCanvas(std::vector<std::vector<uint32_t>> *canvasData) {
+		tmpData_ = canvasData;
+	}*/
 
 private:
 	Canvas* canvas_ = nullptr;
 
-	int canvasWidth_ = 80;
-	int canvasHeight_ = 45;
-	int dotSize_ = 16;
+	int canvasWidth_ = 60;
+	int canvasHeight_ = 60;
+	int dotSize_ = 8;
 	
-	std::vector<std::vector<uint32_t>> tmpData_;
+	std::vector<std::vector<uint32_t>> *tmpData_;
 
 	// 
 	char keys_[256]{};
@@ -41,5 +45,6 @@ private:
 
 	InVector2 mausePos_{};
 
-	//PngData* pngData_ = nullptr;
+//	PngData* pngData_ = nullptr;
+	bool isOutputPng = false;
 };

@@ -3,15 +3,15 @@
 //#include <memory>
 //#include <new>
 //#include <vector>
-//#include <stb_image_write.h>
 //#define STB_IMAGE_WRITE_IMPLEMENTATION
+//#include <stb_image_write.h>
 //
 //class PngData {
-//    struct MYRGBA {
-//        unsigned char r, g, b, a; //
-//        /*RGBA() = default;
-//        constexpr RGBA(const unsigned char r_, const unsigned char g_, const unsigned char b_, const unsigned char a_) :r(r_), g(g_), b(b_), a(a_) {}*/
-//    };
+//    //struct MYRGBA {
+//    //    unsigned char r, g, b, a; //
+//    //    RGBA() = default;
+//    //    constexpr RGBA(const unsigned char r_, const unsigned char g_, const unsigned char b_, const unsigned char a_) :r(r_), g(g_), b(b_), a(a_) {}
+//    //};
 //public:
 //    void Initialize();
 //
@@ -23,7 +23,7 @@
 //
 //    void SetCanvasData(std::vector<std::vector<uint32_t>> canpasData);
 //
-//    void WritePng(char aa);
+//    //void WritePng(char aa);
 //
 //    void ColorChange(uint32_t color);
 //
@@ -39,8 +39,8 @@
 //        blueColor = blueColor >> 8;
 //    }
 //private:
-//    std::vector<MYRGBA> rgbaX_;
-//    std::vector< std::vector<MYRGBA>> rgba_;
+// /*   std::vector<MYRGBA> rgbaX_;
+//    std::vector< std::vector<MYRGBA>> rgba_;*/
 //
 //    std::vector<std::vector<uint32_t>> canpasData_;
 //
@@ -53,5 +53,7 @@
 //    uint32_t green;
 //    uint32_t blue;
 //    int alpha;
+//
+//    vk::
 //};
 //

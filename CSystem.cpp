@@ -8,12 +8,7 @@ void CSys::Initialize() {
 		canvas_ = new Canvas();
 		canvas_->Initialize(canvasWidth_, canvasHeight_, dotSize_);
 	}
-	//if (canvas_ == nullptr) {
-	//	pngData_ = new PngData();
-	//	pngData_->SetCanvasData(canvas_->GetCanvasData());
-	//	pngData_->SetSize(canvasWidth_, canvasHeight_, 16);
-	//	pngData_->Initialize();
-	//}
+	
 }
 
 void CSys::Update() {
@@ -27,14 +22,14 @@ void CSys::Update() {
 		canvas_->Update();
 		canvas_->SetMausePos(mausePos_);
 		canvas_->SetKeys(keys_, preKeys_);
+		//SetTmpCanvas(&(canvas_->GetCanvasData()));
 
 		if (keys_[DIK_D] && !preKeys_[DIK_D]) {
 			delete canvas_;
 			canvas_ = nullptr;
 		}
 	}
-
-	if (canvas_ == nullptr) {
+	else if (canvas_ == nullptr) {
 		if (keys_[DIK_UPARROW] && !preKeys_[DIK_UPARROW]) {
 			canvasHeight_++;
 		}
@@ -76,3 +71,15 @@ void CSys::CreateCanvas(const int width, const int height, const int dotSize) {
 		canvas_->Initialize(width, height, dotSize);
 	}
 }
+
+//void CSys::Output(std::vector<std::vector<uint32_t>> canvasData) {
+//	if (canvasData.data() != nullptr && !isOutputPng) {
+//		isOutputPng = true;
+//
+//		pngData_ = new PngData();
+//		pngData_->SetCanvasData(canvas_->GetCanvasData());
+//		pngData_->SetSize(canvasWidth_, canvasHeight_);
+//		pngData_->Initialize();
+//
+//	}
+//}
