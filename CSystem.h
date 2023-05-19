@@ -7,7 +7,6 @@ class CSys {
 public:
 	~CSys() { 
 		delete canvas_; 
-		//delete pngData_;
 	}
 	CSys() {}
 
@@ -63,9 +62,9 @@ public:
 private:
 	Canvas* canvas_ = nullptr;
 
-	int canvasWidth_ = 1280;
-	int canvasHeight_ = 720;
-	int dotSize_ = 1;
+	int canvasWidth_ = 128;
+	int canvasHeight_ = 128;
+	int dotSize_ = 32;
 	
 	std::vector<std::vector<uint32_t>> *tmpData_;
 

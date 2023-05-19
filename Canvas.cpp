@@ -138,13 +138,13 @@ void Canvas::Draw() {
 			if (canvasData_[(canvasWidth_ * i) + j] != 0x00000000) {
 				//Novice::DrawBox(j * canvasDotSize_, i * canvasDotSize_, canvasDotSize_, canvasDotSize_, 0.0f, canvasData_[i][j], kFillModeSolid);
 			
-				/*Novice::DrawQuad(
+				Novice::DrawQuad(
 					pos_.x + j * canvasDotSize_, pos_.y + i * canvasDotSize_,
 					pos_.x + j * canvasDotSize_ + canvasDotSize_, pos_.y + i * canvasDotSize_,
 					pos_.x + j * canvasDotSize_, pos_.y + i * canvasDotSize_ + canvasDotSize_,
 					pos_.x + j * canvasDotSize_ + canvasDotSize_, pos_.y + i * canvasDotSize_ + canvasDotSize_,
 					0, 0, canvasDotSize_, canvasDotSize_, textureHandle_, canvasData_[(canvasWidth_ * i) + j]
-				);*/
+				);
 			}
 		}
 	}

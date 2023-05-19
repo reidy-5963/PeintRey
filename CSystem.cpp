@@ -5,7 +5,7 @@ void CSys::Initialize() {
 	
 	if (canvas_ == nullptr) {
 		canvas_ = new Canvas();
-		canvas_->Initialize({ 0, 0 }, canvasWidth_, canvasHeight_, dotSize_);
+		canvas_->Initialize({400, 0 }, canvasWidth_, canvasHeight_, dotSize_);
 	}
 	
 }
@@ -73,25 +73,14 @@ void CSys::Draw() {
 void CSys::CreateCanvas(const int width, const int height, const int dotSize) {
 	if (canvas_ == nullptr) {
 		canvas_ = new Canvas();
-		canvas_->Initialize({ 0, 0 }, width, height, dotSize);
+		canvas_->Initialize({ 400, 0 }, width, height, dotSize);
 	}
 }
 
-//void CSys::Output(std::vector<std::vector<uint32_t>> canvasData) {
-//	if (canvasData.data() != nullptr && !isOutputPng) {
-//		isOutputPng = true;
-//
-//		pngData_ = new PngData();
-//		pngData_->SetCanvasData(canvas_->GetCanvasData());
-//		pngData_->SetSize(canvasWidth_, canvasHeight_);
-//		pngData_->Initialize();
-//
-//	}
-//}
 void CSys::Output(std::vector<uint32_t> *canvasData,const char* file, const int width, const int height) {
 	PngData* pngData = new PngData();
 	pngData->WritePng(file, width, height, canvasData);
-
+	delete pngData;
 }
 //void CSys::Output(std::vector<uint32_t> canvasData/*, const int width, const int height*/) {
 //	FILE* fp;
