@@ -8,14 +8,25 @@ void Canvas::Initialize(InVector2 pos, const int kWidth, const int kHeight, int 
 	canvasHeight_ = kHeight;
 	canvasDotSize_ = canvasDotSize;
 
+
+	/*int Max{};
+	int Min{};
+	if (canvasHeight_ <= canvasWidth_) {
+		Max = canvasWidth_;
+		Min = canvasHeight_;
+	}
+	else if (canvasHeight_ > canvasWidth_) {
+		Max = canvasHeight_;
+		Min = canvasWidth_;
+	}*/
+
 	for (int i = 0; i < canvasHeight_; i++) {
 		for (int j = 0; j < canvasWidth_; j++) {
 			/*map_.emplace_back((canvasHeight_ * i) + j).r = 0x00;
 			map_.emplace_back((canvasHeight_ * i) + j).g = 0x00;
 			map_.emplace_back((canvasHeight_ * i) + j).b = 0x00;
 			map_.emplace_back((canvasHeight_ * i) + j).a = 0x00;*/
-
-			canvasData_.emplace_back((canvasHeight_ * i) + j) = 0;
+			canvasData_.emplace_back((i * canvasWidth_) + j) = 0;
 			/*mapX_[i] = NONE;
 			canvasDataX_[i] = 0x00000000;*/
 		}
@@ -111,18 +122,29 @@ void Canvas::Draw() {
 	
 	CanvasDraw(pos_, canvasWidth_, canvasHeight_, canvasDotSize_);
 	
+	/*int Max{};
+	int Min{};
+	if (canvasHeight_ <= canvasWidth_) {
+		Max = canvasWidth_;
+		Min = canvasHeight_;
+	}
+	else if (canvasHeight_ > canvasWidth_) {
+		Max = canvasHeight_;
+		Min = canvasWidth_;
+	}*/
+
 	for (int i = 0; i < canvasHeight_; i++) {
 		for (int j = 0; j < canvasWidth_; j++) {
-			if (canvasData_[(canvasHeight_ * i) + j] != 0x00000000) {
+			if (canvasData_[(canvasWidth_ * i) + j] != 0x00000000) {
 				//Novice::DrawBox(j * canvasDotSize_, i * canvasDotSize_, canvasDotSize_, canvasDotSize_, 0.0f, canvasData_[i][j], kFillModeSolid);
 			
-				Novice::DrawQuad(
+				/*Novice::DrawQuad(
 					pos_.x + j * canvasDotSize_, pos_.y + i * canvasDotSize_,
 					pos_.x + j * canvasDotSize_ + canvasDotSize_, pos_.y + i * canvasDotSize_,
 					pos_.x + j * canvasDotSize_, pos_.y + i * canvasDotSize_ + canvasDotSize_,
 					pos_.x + j * canvasDotSize_ + canvasDotSize_, pos_.y + i * canvasDotSize_ + canvasDotSize_,
-					0, 0, canvasDotSize_, canvasDotSize_, textureHandle_, canvasData_[(canvasHeight_ * i) + j]
-				);
+					0, 0, canvasDotSize_, canvasDotSize_, textureHandle_, canvasData_[(canvasWidth_ * i) + j]
+				);*/
 			}
 		}
 	}

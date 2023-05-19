@@ -92,7 +92,7 @@ uint32_t PngData::ColorInverse(uint32_t colorD) {
 void PngData::ColorChange(const int width, const int height, std::vector<uint32_t>* canvas) {
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
-			canvas->at((height * i) + j) = ColorInverse(canvas->at((height * i) + j));
+			canvas->at((width * i) + j) = ColorInverse(canvas->at((width * i) + j));
 		}
 	}
 

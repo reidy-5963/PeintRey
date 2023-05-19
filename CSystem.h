@@ -1,14 +1,6 @@
 #pragma once
 #include "Canvas.h"
 #include "PngData.h"
-//#define STBI_MSC_SECURE_CRT
-//#define STB_IMAGE_WRITE_IMPLEMENTATION
-//#include <stb_image.h>
-//#include <stb_image_write.h>
-//
-//class BaseStateMode {
-//
-//};
 
 
 class CSys {
@@ -71,9 +63,9 @@ public:
 private:
 	Canvas* canvas_ = nullptr;
 
-	int canvasWidth_ = 64;
-	int canvasHeight_ = 64;
-	int dotSize_ = 10;
+	int canvasWidth_ = 1280;
+	int canvasHeight_ = 720;
+	int dotSize_ = 1;
 	
 	std::vector<std::vector<uint32_t>> *tmpData_;
 
@@ -83,6 +75,5 @@ private:
 
 	InVector2 mausePos_{};                    
 
-//	PngData* pngData_ = nullptr;
 	bool isOutputPng = false;
 };

@@ -3,17 +3,17 @@
 
 
 void WriteMode::Update() {
-	if (canvasData_->at((canvasHeight_ * yIndex_) + xIndex_) != color_
+	if (canvasData_->at((canvasWidth_ * yIndex_) + xIndex_) != color_
 		&& leftMause_) {
-		canvasData_->at((canvasHeight_ * yIndex_) + xIndex_) = color_;
+		canvasData_->at((canvasWidth_ * yIndex_) + xIndex_) = color_;
 	}
 
 }
 
 void Erayser::Update() {
-	if (canvasData_->at((canvasHeight_ * yIndex_) + xIndex_) != 0x00000000
+	if (canvasData_->at((canvasWidth_ * yIndex_) + xIndex_) != 0x00000000
 		&& leftMause_) {
-		canvasData_->at((canvasHeight_ * yIndex_) + xIndex_) = 0x00000000;
+		canvasData_->at((canvasWidth_  * yIndex_) + xIndex_) = 0x00000000;
 	}
 }
 
@@ -81,16 +81,16 @@ void Bucket::Solid(int xIndex, int yIndex) {
 void Bucket::ScanLine(int leftX, int rightX, int y, uint32_t col) {
 	while (leftX <= rightX) {
 		for (; leftX <= rightX; leftX++) {
-			if (canvasData_->at((canvasHeight_ * y) + leftX) == col) {
+			if (canvasData_->at((canvasWidth_ * y) + leftX) == col) {
 				break;
 			}
 		}
-		if (canvasData_->at((canvasHeight_ * y) + leftX) != col) {
+		if (canvasData_->at((canvasWidth_ * y) + leftX) != col) {
 			break;
 		}
 
 		for (; leftX <= rightX; leftX++) {
-			if (canvasData_->at((canvasHeight_ * y) + leftX) != col) {
+			if (canvasData_->at((canvasWidth_ * y) + leftX) != col) {
 				break;
 			}
 		}
@@ -108,7 +108,7 @@ void Bucket::Paint(int x, int y, uint32_t paintCol) {
 	int leftX, rightX;
 	int leftY, rightY;
 	int i;
-	uint32_t col = canvasData_->at((canvasHeight_ * y) + x);
+	uint32_t col = canvasData_->at((canvasWidth_ * y) + x);
 	if (paintCol == col) {
 		return;
 	}
@@ -125,23 +125,23 @@ void Bucket::Paint(int x, int y, uint32_t paintCol) {
 			sIdx = buff;
 		}
 
-		if (canvasData_->at((canvasHeight_ * leftY) + leftX) != col) {
+		if (canvasData_->at((canvasWidth_ * leftY) + leftX) != col) {
 			continue;
 		}
 		while (rightX < canvasWidth_ - 1) {
-			if (canvasData_->at((canvasHeight_ * leftY) +  rightX + 1) != col) {
+			if (canvasData_->at((canvasWidth_ * leftY) +  rightX + 1) != col) {
 				break;
 			}
 			rightX++;
 		}
 		while (leftX > 0) {
-			if (canvasData_->at((canvasHeight_ * leftY) + leftX - 1) != col) {
+			if (canvasData_->at((canvasWidth_ * leftY) + leftX - 1) != col) {
 				break;
 			}
 			leftX--;
 		}
 		for (i = leftX; i <= rightX; i++) {
-			canvasData_->at((canvasHeight_ * leftY ) + i) = paintCol;
+			canvasData_->at((canvasWidth_ * leftY ) + i) = paintCol;
 		}
 
 		if (leftY - 1 >= 0) {
@@ -164,23 +164,23 @@ void Bucket::Paint(int x, int y, uint32_t paintCol) {
 			sIdx = buff;
 		}
 
-		if (canvasData_->at((canvasHeight_ * rightY) + leftX) != col) {
+		if (canvasData_->at((canvasWidth_ * rightY) + leftX) != col) {
 			continue;
 		}
 		while (rightX < canvasWidth_ - 1) {
-			if (canvasData_->at((canvasHeight_ * rightY) + rightX + 1) != col) {
+			if (canvasData_->at((canvasWidth_ * rightY) + rightX + 1) != col) {
 				break;
 			}
 			rightX++;
 		}
 		while (leftX > 0) {
-			if (canvasData_->at((canvasHeight_ * rightY) + leftX - 1) != col) {
+			if (canvasData_->at((canvasWidth_ * rightY) + leftX - 1) != col) {
 				break;
 			}
 			leftX--;
 		}
 		for (i = leftX; i <= rightX; i++) {
-			canvasData_->at((canvasHeight_ * rightY) + i) = paintCol;
+			canvasData_->at((canvasWidth_ * rightY) + i) = paintCol;
 		}
 
 		if (leftY - 1 >= 0) {
