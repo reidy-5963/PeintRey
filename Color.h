@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "RGBA.h"
 #include "MyMath.h"
 
 class Color {
@@ -16,35 +17,14 @@ public:
 		colorList = position;
 	}
 
-	void SetColor(uint32_t color) {
+	void SetColor(MYRGBA color) {
 		color_ = color;
 	}
 
-	void ColorR(int& redColor) {
-		redColor = redColor << 24;
-	}
-
-	void ColorG(int& greenColor) {
-		greenColor = greenColor << 16;
-	}
-
-	void ColorB(int& blueColor) {
-		blueColor = blueColor << 8;
-	}
-
-	uint32_t GetColor() {
+	MYRGBA GetColor() {
 		return color_;
 	}
 
-	uint32_t ColorD(int blueColor, int greenColor, int redColor, int alpha) {
-		uint32_t color;
-		ColorR(redColor);
-		ColorG(greenColor);
-		ColorB(blueColor);
-		color = (redColor | greenColor | blueColor | alpha);
-
-		return color;
-	}
 
 	void SetMausePos(InVector2 mausePos);
 
@@ -59,6 +39,43 @@ public:
 	bool MauseToHandle(InVector2 Handle);
 
 	void CheckHandle(bool& isClick, InVector2& handle, int &colorD);
+
+	void SetLeftMause(bool leftMause) {
+		leftMause_ = leftMause;
+	}
+
+	void SetLeftMauseTori(bool leftMause) {
+		leftMauseTri_ = leftMause;
+	}
+
+	uint32_t ColorR(int redColor) {
+		redColor = redColor << 24;
+		return redColor;
+	}
+
+	uint32_t  ColorG(int greenColor) {
+		greenColor = greenColor << 16;
+		return greenColor;
+
+	}
+
+	uint32_t  ColorB(int blueColor) {
+		blueColor = blueColor << 8;
+		return blueColor;
+
+	}
+
+	uint32_t ColorD(MYRGBA colorD) {
+		uint32_t color;
+		uint32_t redColor = ColorR(colorD.r);
+		uint32_t greenColor = ColorG(colorD.g);
+		uint32_t blueColor = ColorB(colorD.b);
+		uint32_t alphaColor = uint32_t(colorD.a);
+		color = (redColor | greenColor | blueColor | alphaColor);
+		//color = (alphaColor | blueColor | greenColor | redColor);
+
+		return color;
+	}
 
 private:
 	char keys_[256]{};
@@ -77,6 +94,8 @@ private:
 	InVector2 blueHandle{};
 	InVector2 alphaHandle{};
 
+	InVector2 colorBox{};
+
 	const int handleHalfWidth = 5;
 	const int handleHalfHeight = 10;
 
@@ -84,7 +103,7 @@ private:
 	const int gaugeHalfHeight = 5;
 	InVector2 colorList{};
 
-	uint32_t color_;
+	MYRGBA color_;
 
 	int redD;
 	int greenD;
@@ -95,4 +114,7 @@ private:
 	bool isGreenClick = false;
 	bool isBlueClick = false;
 	bool isAlphaClick = false;
+
+	bool leftMause_ = false;
+	bool leftMauseTri_ = false;
 };

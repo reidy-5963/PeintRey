@@ -47,6 +47,9 @@
     <ClCompile Include="Color.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="PngData.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -123,5 +126,7 @@
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="GameMode.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="PngData.h" />
+    <ClInclude Include="RGBA.h" />
   </ItemGroup>
 </Project>

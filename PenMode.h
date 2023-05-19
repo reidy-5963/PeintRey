@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include "RGBA.h"
+#include "MyMath.h"
 
 class Canvas;
 
@@ -11,7 +13,7 @@ public:
 	virtual void SetCanvas(Canvas* canvas) {
 		canvas_ = canvas;
 	}
-	virtual void SetCanvasData(std::vector<std::vector<uint32_t>>* canvasData) {
+	virtual void SetCanvasData(std::vector<uint32_t>* canvasData) {
 		/*for (int i = 0; i < canvasWidth_; i++) {
 			for (int j = 0; j < canvasHeight_; j++) {
 				canvasData_ = canvasData;
@@ -19,15 +21,15 @@ public:
 		}*/
 		canvasData_ = canvasData;
 	}
-	virtual std::vector<std::vector<uint32_t>>* GetCanvasData() {
+	virtual std::vector<uint32_t>* GetCanvasData() {
 		return canvasData_;
 	}
-	virtual void SetMap(std::vector<std::vector<int>>* map) {
+	/*virtual void SetMap(std::vector<MYRGBA>* map) {
 		map_ = map;
 	}
-	virtual std::vector<std::vector<int>>* GetMap() {
+	virtual std::vector<MYRGBA>* GetMap() {
 		return map_;
-	}
+	}*/
 	virtual void SetIndex(int x, int y) {
 		xIndex_ = x;
 		yIndex_ = y;
@@ -43,16 +45,25 @@ public:
 		preKeys_ = preKeys;
 	}
 
-	virtual void SetCanSize(int width, int height) {
+	virtual void SetCanSize(int width, int height, int dotSize) {
 		canvasWidth_ = width;
 		canvasHeight_ = height;
+		canvasDot_ = dotSize;
+	}
+
+	virtual void SetLeftMause(bool leftMause) {
+		leftMause_ = leftMause;
+	}
+
+	virtual void SetLeftMauseTori(bool leftMause) {
+		leftMauseTri_ = leftMause;
 	}
 
 protected:
 	Canvas* canvas_ = nullptr;
 
-	std::vector<std::vector<uint32_t>>* canvasData_ = nullptr;
-	std::vector<std::vector<int>>* map_ = nullptr;
+	std::vector<uint32_t>* canvasData_ = nullptr;
+	//std::vector<MYRGBA>* map_ = nullptr;
 
 	int xIndex_{};
 	int yIndex_{};
@@ -62,16 +73,39 @@ protected:
 
 	uint32_t color_{};
 
+	bool leftMause_ = false;
+	bool leftMauseTri_ = false;
+
 	int canvasWidth_{};
 	int canvasHeight_{};
+	int canvasDot_{};
 
 	bool isAllData = false;
 };
 
 class Bucket : public BaseMode {
+	struct BufferStr {
+		int sx;
+		int sy;
+	};
+
 public:
+	
+
 	void Update();
+	
 	void Solid(int xIndex, int yIndex);
+
+	void ScanLine(int leftX, int rightX, int y, uint32_t col);
+
+	void Paint(int x, int y, uint32_t color);
+
+private:
+	static constexpr int MaxBuff = 2000;
+	struct BufferStr* sIdx, *eIdx;
+	BufferStr buff[MaxBuff];
+
+
 };
 
 class WriteMode : public BaseMode {
