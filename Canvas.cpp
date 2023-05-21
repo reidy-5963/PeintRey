@@ -310,5 +310,5 @@ void Canvas::CanvasDraw(InVector2 pos, const int canWidth, const int canHeight, 
 		Novice::DrawLine(xLine[0].x, xLine[0].y, xLine[1].x, xLine[1].y, 0xffffffaa);
 	}
 
-	Novice::ScreenPrintf(300, 300, "%d, %d, %d", mausePos_.x, mausePos_.y, mauseWheel);
+	//Novice::ScreenPrintf(300, 300, "%d, %d, %d", mausePos_.x, mausePos_.y, mauseWheel);
 }

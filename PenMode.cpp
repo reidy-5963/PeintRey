@@ -32,7 +32,7 @@ void WriteMode::Update() {
 		}
 
 	}
-	Novice::ScreenPrintf(100, 400, "%d, %d, %d, %d", mausePos.x, mausePos.y, preMausePos.x, preMausePos.y);
+	//Novice::ScreenPrintf(100, 400, "%d, %d, %d, %d", mausePos.x, mausePos.y, preMausePos.x, preMausePos.y);
 
 
 	//preMausePos = mausePos;
