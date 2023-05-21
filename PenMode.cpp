@@ -81,7 +81,7 @@ void Bucket::Update() {
 
 	if (/*canvasData_->at((canvasHeight_ * yIndex_) + xIndex_) != color_
 		&&*/ leftMauseTri_) {
-		Paint(xIndex_, yIndex_, color_);
+		Solid(xIndex_, yIndex_/*, color_*/);
 
 	}
 
@@ -114,20 +114,20 @@ void Bucket::Solid(int xIndex, int yIndex) {
 	SoloSolid(xIndex, yIndex, 0, 0);*/
 	//uint32_t color = canvasData_->at((canvasHeight_ * yIndex) + xIndex);
 
-	if (xIndex < 0 || xIndex >= canvasWidth_ ||
-		yIndex < 0 || yIndex >= canvasHeight_) {
-		if (canvasData_->at((canvasHeight_ * yIndex) + xIndex) == color_) {
+	if (xIndex > 0 || xIndex <= canvasWidth_ ||
+		yIndex > 0 || yIndex <= canvasHeight_) {
+		if (canvasData_->at((canvasWidth_ * yIndex) + xIndex) == color_) {
 			return;
 		}
 	}
 
 
 
-	/*if (canvasData_->at((canvasHeight_ * yIndex) + xIndex) != color_) {
+	if (canvasData_->at((canvasWidth_ * yIndex) + xIndex) != color_) {
+		canvasData_->at((canvasWidth_ * yIndex) + xIndex) = color_;
 
-	}*/
+	}
 
-	canvasData_->at((canvasHeight_ * yIndex) + xIndex) = color_;
 
 	Solid(xIndex, yIndex + 1);
 	Solid(xIndex, yIndex - 1);
