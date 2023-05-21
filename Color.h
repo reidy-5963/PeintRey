@@ -25,6 +25,13 @@ public:
 		return color_;
 	}
 
+	InVector2 GetColListPos() {
+		return colorList;
+	}
+
+	InVector2 GetColListSize() {
+		return colorListSize;
+	}
 
 	void SetMausePos(InVector2 mausePos);
 
@@ -82,8 +89,6 @@ private:
 	char preKeys_[256]{};
 	InVector2 mausePos_{};
 
-	InVector2 baseHandle_[2]{};
-
 	InVector2 redGauge[2]{};
 	InVector2 greenGauge[2]{};
 	InVector2 blueGauge[2]{};
@@ -102,6 +107,7 @@ private:
 	const int gaugeHalfWidth = 128;
 	const int gaugeHalfHeight = 5;
 	InVector2 colorList{};
+	InVector2 colorListSize{295, 130};
 
 	MYRGBA color_;
 

@@ -144,6 +144,7 @@
     <ClInclude Include="CSystem.h" />
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="GameMode.h" />
+    <ClInclude Include="Gauge.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="PenMode.h" />
     <ClInclude Include="PngData.h" />

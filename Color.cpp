@@ -12,26 +12,26 @@ void Color::Initialize() {
 	greenD = 255;
 	blueD = 255;
 	alphaD = 255;
-	redGauge[0] = {0, 0};
-	redGauge[1] = { redGauge[0].x + gaugeHalfWidth * 2,  redGauge[0].y};
-	redHandle = { redD, redGauge[0].y + gaugeHalfHeight};
+	redGauge[0] = { 20, 20 };
+	redGauge[1] = { redGauge[0].x + gaugeHalfWidth * 2,  redGauge[0].y };
+	redHandle = { redD, redGauge[0].y + gaugeHalfHeight };
 
 	greenGauge[0] = { redGauge[0].x,  redGauge[0].y + 20 };
 	greenGauge[1] = { greenGauge[0].x + gaugeHalfWidth * 2,  greenGauge[0].y };
-	greenHandle = { greenD, greenGauge[0].y + gaugeHalfHeight };
+	greenHandle = { greenD , greenGauge[0].y + gaugeHalfHeight };
 
 	blueGauge[0] = { greenGauge[0].x,  greenGauge[0].y + 20 };
 	blueGauge[1] = { blueGauge[0].x + gaugeHalfWidth * 2,  blueGauge[0].y };
-	blueHandle = { blueD, blueGauge[0].y + gaugeHalfHeight };
+	blueHandle = { blueD , blueGauge[0].y };
 
 	alphaGauge[0] = { blueGauge[0].x,  blueGauge[0].y + 20 };
 	alphaGauge[1] = { alphaGauge[0].x + gaugeHalfWidth * 2,  alphaGauge[0].y };
-	alphaHandle = { alphaD, alphaGauge[0].y + gaugeHalfHeight };
+	alphaHandle = { alphaD , alphaGauge[0].y };
 
 	colorBox = { alphaGauge[0].x, alphaGauge[0].y + 20 };
 }
 
-void Color::CheckHandle(bool &isClick, InVector2 &handle, int &colorD) {
+void Color::CheckHandle(bool& isClick, InVector2& handle, int& colorD) {
 	if (!isClick) {
 		if (leftMause_ && MauseToHandle(handle)) {
 			isClick = true;
@@ -44,7 +44,7 @@ void Color::CheckHandle(bool &isClick, InVector2 &handle, int &colorD) {
 		if (handle.x < 0 && handle.x > 256) {
 			isClick = false;
 		}
-		handle.x = mausePos_.x;
+		handle.x = mausePos_.x - 20;
 	}
 
 	if (handle.x > 256) {
@@ -55,7 +55,7 @@ void Color::CheckHandle(bool &isClick, InVector2 &handle, int &colorD) {
 	}
 
 
-	colorD = handle.x;
+	colorD = handle.x ;
 
 }
 
@@ -65,7 +65,7 @@ void Color::Update() {
 	color_.b = unsigned char(blueD);
 	color_.a = unsigned char(alphaD);
 
-		//ColorD(blueD, greenD, redD, alphaD);
+	//ColorD(blueD, greenD, redD, alphaD);
 	CheckHandle(isRedClick, redHandle, redD);
 	CheckHandle(isGreenClick, greenHandle, greenD);
 	CheckHandle(isBlueClick, blueHandle, blueD);
@@ -73,8 +73,8 @@ void Color::Update() {
 }
 
 bool Color::MauseToHandle(InVector2 Handle) {
-	if (Handle.x - handleHalfWidth < mausePos_.x && Handle.x + handleHalfWidth > mausePos_.x) {
-		if (Handle.y - handleHalfHeight < + mausePos_.y && Handle.y + handleHalfHeight > + mausePos_.y) {
+	if (Handle.x + 20 - handleHalfWidth < mausePos_.x && Handle.x + 20 + handleHalfWidth > mausePos_.x) {
+		if (Handle.y  - handleHalfHeight < +mausePos_.y && Handle.y  + handleHalfHeight > +mausePos_.y) {
 			return true;
 		}
 	}
@@ -83,13 +83,16 @@ bool Color::MauseToHandle(InVector2 Handle) {
 
 void Color::GaugeDraw(InVector2 Gaugepos, InVector2 Handlepos, uint32_t color) {
 	Novice::DrawBox(Gaugepos.x + colorList.x, Gaugepos.y + colorList.y, 255, 10, 0.0f, 0xAAAAAAFF, kFillModeSolid);
-	Novice::DrawBox(Handlepos.x - handleHalfWidth + colorList.x, Handlepos.y - handleHalfHeight + colorList.y, handleHalfWidth * 2, handleHalfHeight * 2, 0.0f, color, kFillModeSolid);
+	Novice::DrawBox(Handlepos.x - handleHalfWidth + colorList.x + 20, Handlepos.y - handleHalfHeight + colorList.y, handleHalfWidth * 2, handleHalfHeight * 2, 0.0f, color, kFillModeSolid);
 
 }
 
 
 void Color::Draw() {
 	Novice::ScreenPrintf(0, 0, "RGBA %d, %d, %d, %d", redD, greenD, blueD, alphaD);
+
+	Novice::DrawBox(colorList.x, colorList.y, colorListSize.x , colorListSize.y, 0.0f, 0x000000aa, kFillModeSolid);
+
 	GaugeDraw(redGauge[0], redHandle, RED);
 	GaugeDraw(greenGauge[0], greenHandle, GREEN);
 	GaugeDraw(blueGauge[0], blueHandle, BLUE);

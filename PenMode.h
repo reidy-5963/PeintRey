@@ -24,12 +24,13 @@ public:
 	virtual std::vector<uint32_t>* GetCanvasData() {
 		return canvasData_;
 	}
-	/*virtual void SetMap(std::vector<MYRGBA>* map) {
-		map_ = map;
+	virtual void SetMausePos(InVector2 pos) {
+		mausePos = pos;
 	}
-	virtual std::vector<MYRGBA>* GetMap() {
-		return map_;
-	}*/
+	void SetCanvasPos(InVector2 pos) {
+		canPos = pos;
+	}
+
 	virtual void SetIndex(int x, int y) {
 		xIndex_ = x;
 		yIndex_ = y;
@@ -45,10 +46,14 @@ public:
 		preKeys_ = preKeys;
 	}
 
+	virtual void SetCanDotSize(int dotSize) {
+		canvasDot_ = dotSize;
+	}
+
 	virtual void SetCanSize(int width, int height, int dotSize) {
 		canvasWidth_ = width;
 		canvasHeight_ = height;
-		canvasDot_ = dotSize;
+		SetCanDotSize(dotSize);
 	}
 
 	virtual void SetLeftMause(bool leftMause) {
@@ -67,6 +72,10 @@ protected:
 
 	int xIndex_{};
 	int yIndex_{};
+
+	InVector2 mausePos{};
+	InVector2 preMausePos{};
+	InVector2 canPos{};
 
 	char keys_{};
 	char preKeys_{};
@@ -102,8 +111,8 @@ public:
 
 private:
 	static constexpr int MaxBuff = 2000;
-	struct BufferStr* sIdx, *eIdx;
-	BufferStr buff[MaxBuff];
+	struct BufferStr* sIdx{}, * eIdx{};
+	BufferStr buff[MaxBuff]{};
 
 
 };

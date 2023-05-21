@@ -128,5 +128,6 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="PngData.h" />
     <ClInclude Include="RGBA.h" />
+    <ClInclude Include="Gauge.h" />
   </ItemGroup>
 </Project>

@@ -20,6 +20,9 @@ public:
 
 	void Output(std::vector<uint32_t> *canvasData,const char *file, const int width, const int height);
 
+	bool M2Swich(InVector2 pos, InVector2 size, InVector2 mausePos);
+
+
 	/*void SetTmpCanvas(std::vector<std::vector<uint32_t>> *canvasData) {
 		tmpData_ = canvasData;
 	}*/
@@ -62,13 +65,25 @@ public:
 private:
 	Canvas* canvas_ = nullptr;
 
+
+
 	int canvasWidth_ = 128;
 	int canvasHeight_ = 128;
 	int dotSize_ = 32;
 	
+
+
 	std::vector<std::vector<uint32_t>> *tmpData_;
 
-	// 
+	InVector2 SwichSize{ 60, 60 };
+	InVector2 SwichListPos{ 40, 580 };
+	InVector2 swichListSize{ 310 , 100 };
+	InVector2 swichPos[3];
+	uint32_t swichColor[3]{ 0x000000FF };
+	bool isSwich[3];
+
+
+	 
 	char keys_[256]{};
 	char preKeys_[256]{};
 

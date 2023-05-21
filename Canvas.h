@@ -35,6 +35,14 @@ public:
 		}
 	}
 
+	void SetDotSize(int dotSize) {
+		canvasDotSize_ = dotSize;
+	}
+
+	void SetPos(InVector2 pos) {
+		pos_ = pos;
+	}
+
 	void BModeIni();
 
 	std::vector<uint32_t> *GetCanvasData() {
@@ -65,10 +73,13 @@ public:
 		uint32_t blueColor = ColorB(colorD.b);
 		uint32_t alphaColor = uint32_t(colorD.a);
 		color = (redColor | greenColor | blueColor | alphaColor);
-		//color = (alphaColor | blueColor | greenColor | redColor);
 
 		return color;
 	}
+
+	bool M2Swich(InVector2 pos, InVector2 size, InVector2 mausePos);
+
+	bool M2List(InVector2 pos, InVector2 size, InVector2 mausePos);
 
 private:
 
@@ -76,14 +87,26 @@ private:
 	int canvasHeight_;
 	int textureHandle_;
 
-	//std::vector<MYRGBA> map_;
-	/*std::vector<std::vector<int>> map_;*/
+	InVector2 SwichSize{60, 60};
+	InVector2 SwichListPos{40, 170};
+	InVector2 swichListSize{ 100 , 260 };
+	InVector2 swichPos[3];
+	uint32_t swichColor[3]{ 0x000000FF };
+	bool isSwich[3];
+	
+	bool MoveCanvas = true;
+	bool isPeint = false;
+
+	
 	std::vector<uint32_t> canvasData_;
-	/*std::vector<std::vector<uint32_t>> canvasData_;*/
+	std::vector<uint32_t> tmpCanvasData_;
+
 
 	Color* colorData_ = nullptr;
-
+	InVector2 nowPos{};
 	InVector2 pos_{};
+
+	InVector2 nP2P{};
 
 	uint32_t color_;
 	int canvasDotSize_;
@@ -91,6 +114,10 @@ private:
 	char keys_[256]{};
 	char preKeys_[256]{};
 	InVector2 mausePos_{};
+	InVector2 SystemMausePos_{};
 
 	BaseMode* mode_;
+
+	int mauseWheel = canvasDotSize_ * 120;
+
 };

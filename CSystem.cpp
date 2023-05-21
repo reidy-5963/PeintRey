@@ -6,33 +6,109 @@ void CSys::Initialize() {
 	if (canvas_ == nullptr) {
 		canvas_ = new Canvas();
 		canvas_->Initialize({400, 0 }, canvasWidth_, canvasHeight_, dotSize_);
+		isSwich[1] = true;
 	}
 	
+	swichPos[0] = { SwichListPos.x + 20 + SwichSize.x / 2, SwichListPos.y + 20 + SwichSize.y / 2 };
+	swichPos[1] = { swichPos[0].x + 40 + SwichSize.x , swichPos[0].y};
+	swichPos[2] = { swichPos[1].x + 40 + SwichSize.x , swichPos[0].y };
+
 }
 
+bool CSys::M2Swich(InVector2 pos, InVector2 size, InVector2 mausePos) {
+	if (pos.x + size.x / 2 > mausePos.x && pos.y + size.y / 2 > mausePos.y &&
+		pos.x - size.x / 2 < mausePos.x && pos.y - size.y / 2 < mausePos.y) {
+		return true;
+	}
+	return false;
+}
+
+
 void CSys::Update() {
-	//
 	memcpy(preKeys_, keys_, 256);
 	Novice::GetHitKeyStateAll(keys_);
 
 	Novice::GetMousePosition(&mausePos_.x, &mausePos_.y);
 
+	if (!isSwich[2]) {
+		swichColor[2] = 0x444444ff;
+	}
+	else if (isSwich[2]) {
+		swichColor[2] = 0xff0000ff;
+	}
+
+	for (int i = 0; i < 2; i++) {
+		if (!isSwich[i]) {
+			swichColor[i] = 0x444444ff;
+		}
+		else if (isSwich[i]) {
+			swichColor[i] = 0xff0000ff;
+		}
+	}
+
 	if (canvas_ != nullptr) {
 		canvas_->Update();
 		canvas_->SetMausePos(mausePos_);
 		canvas_->SetKeys(keys_, preKeys_);
-		//SetTmpCanvas(&(canvas_->GetCanvasData()));
+		
+		if (!isSwich[0]) {
+			if (M2Swich(swichPos[0], SwichSize, mausePos_)) {
+				swichColor[0] = 0xaaaaaaff;
 
-		if (keys_[DIK_Y] && !preKeys_[DIK_Y]) {
-			Output(canvas_->GetCanvasData(), "./test.png", canvasWidth_, canvasHeight_);
+				if (Novice::IsTriggerMouse(0)) {
+					isSwich[0] = true;
+					isSwich[1] = false;
+					delete canvas_;
+					canvas_ = nullptr;
+					swichColor[0] = 0xff0000ff;
+				}
+			}
+
+			if (keys_[DIK_D] && !preKeys_[DIK_D]) {
+				isSwich[0] = true;
+				isSwich[1] = false;
+				delete canvas_;
+				canvas_ = nullptr;
+			}
+		}
+		if (!isSwich[2]) {
+			if (M2Swich(swichPos[2], SwichSize, mausePos_)) {
+				swichColor[2] = 0xaaaaaaff;
+
+				if (Novice::IsTriggerMouse(0)) {
+					
+					Output(canvas_->GetCanvasData(), "./test.png", canvasWidth_, canvasHeight_);
+					swichColor[2] = 0xff0000ff;
+				}
+			}
+
+			if (keys_[DIK_Y] && !preKeys_[DIK_Y]) {
+				
+				Output(canvas_->GetCanvasData(), "./test.png", canvasWidth_, canvasHeight_);
+			}
 		}
 
-		if (keys_[DIK_D] && !preKeys_[DIK_D]) {
-			delete canvas_;
-			canvas_ = nullptr;
-		}
 	}
 	else if (canvas_ == nullptr) {
+		if (!isSwich[1]) {
+			if (M2Swich(swichPos[1], SwichSize, mausePos_)) {
+				swichColor[1] = 0xaaaaaaff;
+
+				if (Novice::IsTriggerMouse(0)) {
+					isSwich[0] = false;
+					isSwich[1] = true;
+					CreateCanvas(canvasWidth_, canvasHeight_, dotSize_);
+					swichColor[1] = 0xff0000ff;
+				}
+			}
+
+			if (keys_[DIK_Q] && !preKeys_[DIK_Q]) {
+				isSwich[0] = false;
+				isSwich[1] = true;
+				CreateCanvas(canvasWidth_, canvasHeight_, dotSize_);
+			}
+		}
+
 		if (keys_[DIK_UPARROW] && !preKeys_[DIK_UPARROW]) {
 			canvasHeight_++;
 		}
@@ -53,9 +129,7 @@ void CSys::Update() {
 		}
 
 		
-		if (keys_[DIK_Q] && !preKeys_[DIK_Q]) {
-			CreateCanvas(canvasWidth_, canvasHeight_, dotSize_);
-		}
+		
 
 		
 	}
@@ -68,6 +142,17 @@ void CSys::Draw() {
 	if (canvas_ == nullptr) {
 		Novice::ScreenPrintf(0, 0, "W : %d, H : %d, D : %d", canvasWidth_, canvasHeight_, dotSize_);
 	}
+
+
+	Novice::DrawBox(SwichListPos.x, SwichListPos.y, swichListSize.x, swichListSize.y, 0.0f, 0x000000aa, kFillModeSolid);
+
+	for (int i = 0; i < 3; i++) {
+		Novice::DrawBox(swichPos[i].x - SwichSize.x / 2, swichPos[i].y - SwichSize.y / 2, SwichSize.x, SwichSize.y, 0.0f, swichColor[i], kFillModeSolid);
+	}
+	Novice::ScreenPrintf(swichPos[0].x - SwichSize.x / 2, swichPos[0].y - SwichSize.y / 2, "Delete");
+	Novice::ScreenPrintf(swichPos[1].x - SwichSize.x / 2, swichPos[1].y - SwichSize.y / 2, "Create");
+	Novice::ScreenPrintf(swichPos[2].x - SwichSize.x / 2, swichPos[2].y - SwichSize.y / 2, "Output");
+
 }
 
 void CSys::CreateCanvas(const int width, const int height, const int dotSize) {

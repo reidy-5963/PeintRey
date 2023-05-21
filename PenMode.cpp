@@ -1,5 +1,5 @@
 #include "PenMode.h"
-
+#include "Novice.h"
 
 
 void WriteMode::Update() {
@@ -7,18 +7,77 @@ void WriteMode::Update() {
 		&& leftMause_) {
 		canvasData_->at((canvasWidth_ * yIndex_) + xIndex_) = color_;
 	}
+	//mausePos.x = xIndex_ * canvasDot_;
+	//mausePos.y = yIndex_ * canvasDot_;
+	const int max = 100;
+	Vector2 line{ float(mausePos.x - preMausePos.x), float(mausePos.y - preMausePos.y) };
+
+
+	Vector2 lineerInter[max];
+	int linerXIndex;
+	int linerYIndex;
+
+	for (int i = 0; i < max; i++) {
+		lineerInter[i] = { float(preMausePos.x) + ((line.x / float(max)) * i), float(preMausePos.y) + ((line.y / float(max)) * i) };
+		linerXIndex = int(lineerInter[i].x) / canvasDot_;
+		linerYIndex = int(lineerInter[i].y) / canvasDot_;
+
+		if (linerXIndex >= 0 && linerXIndex < canvasWidth_ &&
+			linerYIndex >= 0 && linerYIndex < canvasHeight_)
+		{
+			if (canvasData_->at((canvasWidth_ * (linerYIndex)) + (linerXIndex)) != color_
+				&& leftMause_) {
+				canvasData_->at((canvasWidth_ * (linerYIndex)) + (linerXIndex)) = color_;
+			}
+		}
+
+	}
+	Novice::ScreenPrintf(100, 400, "%d, %d, %d, %d", mausePos.x, mausePos.y, preMausePos.x, preMausePos.y);
+
+
+	preMausePos = mausePos;
 
 }
 
 void Erayser::Update() {
 	if (canvasData_->at((canvasWidth_ * yIndex_) + xIndex_) != 0x00000000
 		&& leftMause_) {
-		canvasData_->at((canvasWidth_  * yIndex_) + xIndex_) = 0x00000000;
+		canvasData_->at((canvasWidth_ * yIndex_) + xIndex_) = 0x00000000;
 	}
+
+	const int max = 100;
+	Vector2 line{ float(mausePos.x - preMausePos.x), float(mausePos.y - preMausePos.y) };
+
+
+	Vector2 lineerInter[max];
+	int linerXIndex;
+	int linerYIndex;
+
+	for (int i = 0; i < max; i++) {
+		lineerInter[i] = { float(preMausePos.x) + ((line.x / float(max)) * i), float(preMausePos.y) + ((line.y / float(max)) * i) };
+		linerXIndex = int(lineerInter[i].x) / canvasDot_;
+		linerYIndex = int(lineerInter[i].y) / canvasDot_;
+
+		if (linerXIndex >= 0 && linerXIndex < canvasWidth_ &&
+			linerYIndex >= 0 && linerYIndex < canvasHeight_)
+		{
+			if (canvasData_->at((canvasWidth_ * (linerYIndex)) + (linerXIndex)) != 0x00000000
+				&& leftMause_) {
+				canvasData_->at((canvasWidth_ * (linerYIndex)) + (linerXIndex)) = 0x00000000;
+			}
+		}
+
+	}
+
+	preMausePos = mausePos;
+
+
 }
 
+
+
 void Bucket::Update() {
-	
+
 
 	if (/*canvasData_->at((canvasHeight_ * yIndex_) + xIndex_) != color_
 		&&*/ leftMauseTri_) {
@@ -50,7 +109,7 @@ void Bucket::Solid(int xIndex, int yIndex) {
 			}
 			SSSolid(xIndex , yIndex - i, SoloSolid(xIndex, yIndex - i, 0, -i));
 		}
-		
+
 	}
 	SoloSolid(xIndex, yIndex, 0, 0);*/
 	//uint32_t color = canvasData_->at((canvasHeight_ * yIndex) + xIndex);
@@ -61,20 +120,20 @@ void Bucket::Solid(int xIndex, int yIndex) {
 			return;
 		}
 	}
-	
+
 
 
 	/*if (canvasData_->at((canvasHeight_ * yIndex) + xIndex) != color_) {
 
 	}*/
-	
+
 	canvasData_->at((canvasHeight_ * yIndex) + xIndex) = color_;
 
 	Solid(xIndex, yIndex + 1);
 	Solid(xIndex, yIndex - 1);
 	Solid(xIndex + 1, yIndex);
 	Solid(xIndex - 1, yIndex);
-	
+
 
 }
 
@@ -94,7 +153,7 @@ void Bucket::ScanLine(int leftX, int rightX, int y, uint32_t col) {
 				break;
 			}
 		}
-	
+
 		eIdx->sx = leftX - 1;
 		eIdx->sy = y;
 
@@ -129,7 +188,7 @@ void Bucket::Paint(int x, int y, uint32_t paintCol) {
 			continue;
 		}
 		while (rightX < canvasWidth_ - 1) {
-			if (canvasData_->at((canvasWidth_ * leftY) +  rightX + 1) != col) {
+			if (canvasData_->at((canvasWidth_ * leftY) + rightX + 1) != col) {
 				break;
 			}
 			rightX++;
@@ -141,7 +200,7 @@ void Bucket::Paint(int x, int y, uint32_t paintCol) {
 			leftX--;
 		}
 		for (i = leftX; i <= rightX; i++) {
-			canvasData_->at((canvasWidth_ * leftY ) + i) = paintCol;
+			canvasData_->at((canvasWidth_ * leftY) + i) = paintCol;
 		}
 
 		if (leftY - 1 >= 0) {
