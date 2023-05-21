@@ -22,6 +22,7 @@ public:
 
 	bool M2Swich(InVector2 pos, InVector2 size, InVector2 mausePos);
 
+	void CheckHandle(bool& isClick, InVector2& handle, int& colorD, int maxGauge);
 
 	/*void SetTmpCanvas(std::vector<std::vector<uint32_t>> *canvasData) {
 		tmpData_ = canvasData;
@@ -61,6 +62,7 @@ public:
 
 		return ~crc;
 	}
+	void GaugeDraw(InVector2 Gaugepos, InVector2 Handlepos, uint32_t color, int MaxGauge);
 
 private:
 	Canvas* canvas_ = nullptr;
@@ -71,8 +73,25 @@ private:
 	int canvasHeight_ = 128;
 	int dotSize_ = 32;
 	
+	InVector2 WidGauge{};
+	InVector2 HeiGauge{};
+	InVector2 DotGauge{};
+
+	InVector2 WidHandle{};
+	InVector2 HeiHandle{};
+	InVector2 DotHandle{};
+	bool isWidClick = false;
+	bool isHeiClick = false;
+	bool isDotClick = false;
 
 
+	const int handleHalfWidth = 5;
+	const int handleHalfHeight = 10;
+
+	const int gaugeHalfWidth = 128;
+	const int gaugeHalfHeight = 5;
+	InVector2 list{};
+	InVector2 listSize{ 295, 130 };
 	std::vector<std::vector<uint32_t>> *tmpData_;
 
 	InVector2 SwichSize{ 60, 60 };
@@ -88,6 +107,8 @@ private:
 	char preKeys_[256]{};
 
 	InVector2 mausePos_{};                    
+	InVector2 preMausePos_{};
+
 
 	bool isOutputPng = false;
 };

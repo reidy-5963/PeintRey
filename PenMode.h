@@ -27,6 +27,9 @@ public:
 	virtual void SetMausePos(InVector2 pos) {
 		mausePos = pos;
 	}
+	virtual void SetMauseprePos(InVector2 prepos) {
+		preMausePos = prepos;
+	}
 	void SetCanvasPos(InVector2 pos) {
 		canPos = pos;
 	}

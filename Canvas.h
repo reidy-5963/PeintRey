@@ -114,6 +114,8 @@ private:
 	char keys_[256]{};
 	char preKeys_[256]{};
 	InVector2 mausePos_{};
+	InVector2 preMausePos_{};
+
 	InVector2 SystemMausePos_{};
 
 	BaseMode* mode_;

@@ -105,7 +105,7 @@ void Canvas::Update() {
 		mode_->SetLeftMauseTori(Novice::IsTriggerMouse(0));
 		mode_->SetCanDotSize(canvasDotSize_);
 		mode_->SetMausePos(mausePos_);
-
+		mode_->SetMauseprePos(preMausePos_);
 		if (keys_[DIK_LSHIFT]) {
 			if (Novice::IsPressMouse(0)) {
 				//if (MoveCanvas) {
@@ -238,7 +238,7 @@ void Canvas::Update() {
 		}
 	}
 
-
+	preMausePos_ = mausePos_;
 }
 
 void Canvas::SetMausePos(InVector2 mausePos) {

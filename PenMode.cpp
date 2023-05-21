@@ -9,7 +9,7 @@ void WriteMode::Update() {
 	}
 	//mausePos.x = xIndex_ * canvasDot_;
 	//mausePos.y = yIndex_ * canvasDot_;
-	const int max = 100;
+	const int max = 200;
 	Vector2 line{ float(mausePos.x - preMausePos.x), float(mausePos.y - preMausePos.y) };
 
 
@@ -35,7 +35,7 @@ void WriteMode::Update() {
 	Novice::ScreenPrintf(100, 400, "%d, %d, %d, %d", mausePos.x, mausePos.y, preMausePos.x, preMausePos.y);
 
 
-	preMausePos = mausePos;
+	//preMausePos = mausePos;
 
 }
 
@@ -45,7 +45,7 @@ void Erayser::Update() {
 		canvasData_->at((canvasWidth_ * yIndex_) + xIndex_) = 0x00000000;
 	}
 
-	const int max = 100;
+	const int max = 200;
 	Vector2 line{ float(mausePos.x - preMausePos.x), float(mausePos.y - preMausePos.y) };
 
 
@@ -69,7 +69,7 @@ void Erayser::Update() {
 
 	}
 
-	preMausePos = mausePos;
+	//preMausePos = mausePos;
 
 
 }

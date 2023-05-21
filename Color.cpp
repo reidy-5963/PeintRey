@@ -8,9 +8,9 @@ void Color::SetMausePos(InVector2 mausePos) {
 }
 
 void Color::Initialize() {
-	redD = 100;
-	greenD = 255;
-	blueD = 255;
+	redD = 0;
+	greenD = 0;
+	blueD = 0;
 	alphaD = 255;
 	redGauge[0] = { 20, 20 };
 	redGauge[1] = { redGauge[0].x + gaugeHalfWidth * 2,  redGauge[0].y };
@@ -47,7 +47,7 @@ void Color::CheckHandle(bool& isClick, InVector2& handle, int& colorD) {
 		handle.x = mausePos_.x - 20;
 	}
 
-	if (handle.x > 256) {
+	if (handle.x >= 256) {
 		handle.x = 255;
 	}
 	if (handle.x < 0) {

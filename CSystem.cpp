@@ -13,6 +13,15 @@ void CSys::Initialize() {
 	swichPos[1] = { swichPos[0].x + 40 + SwichSize.x , swichPos[0].y};
 	swichPos[2] = { swichPos[1].x + 40 + SwichSize.x , swichPos[0].y };
 
+	WidGauge = { 20 + list.x, 20 + list.y};
+	WidHandle = { canvasWidth_, WidGauge.y + gaugeHalfHeight };
+
+	HeiGauge = { WidGauge.x ,  WidGauge.y + 20 };
+	HeiHandle = { canvasHeight_ , HeiGauge.y + gaugeHalfHeight };
+
+	DotGauge = { HeiGauge.x , HeiGauge.y + 20 };
+	DotHandle = { dotSize_ , DotGauge.y + gaugeHalfHeight  };
+
 }
 
 bool CSys::M2Swich(InVector2 pos, InVector2 size, InVector2 mausePos) {
@@ -129,10 +138,38 @@ void CSys::Update() {
 		}
 
 		
-		
-
-		
+		CheckHandle(isWidClick, WidHandle, canvasWidth_, 400);
+		CheckHandle(isHeiClick, HeiHandle, canvasHeight_,400);
+		CheckHandle(isDotClick, DotHandle, dotSize_, 100);
 	}
+	preMausePos_ = mausePos_;
+}
+void CSys::CheckHandle(bool& isClick, InVector2& handle, int& colorD, int maxGauge) {
+	if (!isClick) {
+		if (Novice::IsPressMouse(0) && M2Swich(handle, { handleHalfWidth * 2, handleHalfHeight * 2 }, { mausePos_.x - 20, mausePos_.y })) {
+			isClick = true;
+		}
+	}
+	else if (isClick) {
+		if (!Novice::IsPressMouse(0)) {
+			isClick = false;
+		}
+		if (handle.x < 0 && handle.x > maxGauge) {
+			isClick = false;
+		}
+		handle.x = mausePos_.x - 20;
+	}
+
+	if (handle.x >= maxGauge) {
+		handle.x = maxGauge - 1;
+	}
+	if (handle.x < 1) {
+		handle.x = 1;
+	}
+
+
+	colorD = handle.x;
+
 }
 
 void CSys::Draw() {
@@ -141,6 +178,9 @@ void CSys::Draw() {
 	}
 	if (canvas_ == nullptr) {
 		Novice::ScreenPrintf(0, 0, "W : %d, H : %d, D : %d", canvasWidth_, canvasHeight_, dotSize_);
+		GaugeDraw(WidGauge, WidHandle, BLACK, 400);
+		GaugeDraw(HeiGauge, HeiHandle, BLACK, 400);
+		GaugeDraw(DotGauge, DotHandle, BLACK, 100);
 	}
 
 
@@ -154,7 +194,11 @@ void CSys::Draw() {
 	Novice::ScreenPrintf(swichPos[2].x - SwichSize.x / 2, swichPos[2].y - SwichSize.y / 2, "Output");
 
 }
+void CSys::GaugeDraw(InVector2 Gaugepos, InVector2 Handlepos, uint32_t color, int MaxGauge) {
+	Novice::DrawBox(Gaugepos.x + list.x, Gaugepos.y + list.y, MaxGauge, 10, 0.0f, 0xAAAAAAFF, kFillModeSolid);
+	Novice::DrawBox(Handlepos.x - handleHalfWidth + 20, Handlepos.y - handleHalfHeight, handleHalfWidth * 2, handleHalfHeight * 2, 0.0f, color, kFillModeSolid);
 
+}
 void CSys::CreateCanvas(const int width, const int height, const int dotSize) {
 	if (canvas_ == nullptr) {
 		canvas_ = new Canvas();
