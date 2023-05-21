@@ -110,7 +110,10 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CSystem.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PenMode.cpp" />
+    <ClCompile Include="PenMode.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
     <ClCompile Include="PngData.cpp" />
   </ItemGroup>
   <ItemGroup>

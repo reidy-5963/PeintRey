@@ -79,175 +79,144 @@ void Erayser::Update() {
 void Bucket::Update() {
 
 
-	if (/*canvasData_->at((canvasHeight_ * yIndex_) + xIndex_) != color_
-		&&*/ leftMauseTri_) {
-		Solid(xIndex_, yIndex_/*, color_*/);
+	if (canvasData_->at((canvasWidth_ * yIndex_) + xIndex_) != color_
+		&& leftMauseTri_) {
+		Paint(xIndex_, yIndex_, color_);
 
 	}
 
 }
 
-
+//
 void Bucket::Solid(int xIndex, int yIndex) {
-	/*if (solid) {
-		for (int i = 1; i <= xIndex; i++) {
-			if (map_->at((canvasHeight_ * yIndex) + xIndex - i) == 1 || xIndex - i <= 0) {
-				return;
-			}
-			SSSolid(xIndex - i, yIndex, SoloSolid(xIndex - i, yIndex, -i, 0));
-		}
 
-		for (int i = 1; (xIndex + i) < canvasWidth_; i++ || xIndex + i > canvasWidth_) {
-			if (map_->at((canvasHeight_ * yIndex) + xIndex + i) == 1 || xIndex + i > canvasWidth_) {
-				break;
-			}
-			SSSolid(xIndex + i, yIndex, SoloSolid(xIndex + i, yIndex, i, 0));
-		}
-		for (int i = 1; i <= yIndex; i++) {
-			if (map_->at((canvasHeight_ * (yIndex - i)) + xIndex) == 1 || yIndex - i <= 0) {
-				break;
-			}
-			SSSolid(xIndex , yIndex - i, SoloSolid(xIndex, yIndex - i, 0, -i));
-		}
-
-	}
-	SoloSolid(xIndex, yIndex, 0, 0);*/
-	//uint32_t color = canvasData_->at((canvasHeight_ * yIndex) + xIndex);
-
-	if (xIndex > 0 || xIndex <= canvasWidth_ ||
-		yIndex > 0 || yIndex <= canvasHeight_) {
-		if (canvasData_->at((canvasWidth_ * yIndex) + xIndex) == color_) {
-			return;
-		}
-	}
-
-
-
-	if (canvasData_->at((canvasWidth_ * yIndex) + xIndex) != color_) {
-		canvasData_->at((canvasWidth_ * yIndex) + xIndex) = color_;
-
-	}
-
-
-	Solid(xIndex, yIndex + 1);
-	Solid(xIndex, yIndex - 1);
-	Solid(xIndex + 1, yIndex);
-	Solid(xIndex - 1, yIndex);
-
-
-}
-
-void Bucket::ScanLine(int leftX, int rightX, int y, uint32_t col) {
-	while (leftX <= rightX) {
-		for (; leftX <= rightX; leftX++) {
-			if (canvasData_->at((canvasWidth_ * y) + leftX) == col) {
-				break;
-			}
-		}
-		if (canvasData_->at((canvasWidth_ * y) + leftX) != col) {
-			break;
-		}
-
-		for (; leftX <= rightX; leftX++) {
-			if (canvasData_->at((canvasWidth_ * y) + leftX) != col) {
-				break;
-			}
-		}
-
-		eIdx->sx = leftX - 1;
-		eIdx->sy = y;
-
-		if (++eIdx == &buff[MaxBuff]) {
-			eIdx = buff;
-		}
-	}
-}
-
-void Bucket::Paint(int x, int y, uint32_t paintCol) {
-	int leftX, rightX;
-	int leftY, rightY;
-	int i;
-	uint32_t col = canvasData_->at((canvasWidth_ * y) + x);
-	if (paintCol == col) {
+	//
+	if (xIndex < 0 || xIndex >= canvasWidth_ ||
+		yIndex < 0 || yIndex >= canvasHeight_ ||
+		canvasData_->at((canvasWidth_ * yIndex) + xIndex) == color_) {
+		//
 		return;
 	}
 
-	sIdx = buff;
-	eIdx = buff + 1;
-	sIdx->sx = x;
-	sIdx->sy = y;
+	//
+	canvasData_->at((canvasWidth_ * yIndex) + xIndex) = color_;
 
-	do {
-		leftX = rightX = sIdx->sx;
-		leftY = sIdx->sy;
-		if (++sIdx == &buff[MaxBuff]) {
-			sIdx = buff;
+
+	//
+	Solid(xIndex + 1, yIndex);
+	Solid(xIndex - 1, yIndex);
+	Solid(xIndex, yIndex - 1);
+	Solid(xIndex, yIndex + 1);
+}
+
+
+void Bucket::ScanLine(int leftX, int rightX, int y, uint32_t beforeColor) {
+	while (leftX <= rightX) {
+		for (; leftX <= rightX; leftX++) {
+			if (canvasData_->at((canvasWidth_ * y) + leftX) == beforeColor) {
+				break;
+			}
+		}
+		if (canvasData_->at((canvasWidth_ * y) + leftX) != beforeColor) {
+			break;
+		}
+		for (; leftX <= rightX; leftX++) {
+			if (canvasData_->at((canvasWidth_ * y) + leftX) != beforeColor) {
+				break;
+			}
 		}
 
-		if (canvasData_->at((canvasWidth_ * leftY) + leftX) != col) {
+		EndIdx->sx = leftX - 1;
+		EndIdx->sy = y;
+
+		if (++EndIdx == &buff[MaxBuff]) {
+			EndIdx = buff;
+		}
+	}
+}
+void Bucket::Paint(int x, int y, uint32_t paintColor) {
+	int leftX, rightX;
+	int leftY, rightY;
+	int i;
+	uint32_t beforeColor = canvasData_->at((canvasWidth_ * y) + x);
+	if (paintColor == beforeColor) {
+		return;
+	}
+	StartIdx = buff;
+	EndIdx = buff + 1;
+	StartIdx->sx = x;
+	StartIdx->sy = y;
+
+	do {
+		leftX = rightX = StartIdx->sx;
+		leftY = StartIdx->sy;
+		if (++StartIdx == &buff[MaxBuff]) {
+			StartIdx = buff;
+		}
+
+		if (canvasData_->at((canvasWidth_ * leftY) + leftX) != beforeColor) {
 			continue;
 		}
 		while (rightX < canvasWidth_ - 1) {
-			if (canvasData_->at((canvasWidth_ * leftY) + rightX + 1) != col) {
+			if (canvasData_->at((canvasWidth_ * leftY) + rightX + 1) != beforeColor) {
 				break;
 			}
 			rightX++;
 		}
 		while (leftX > 0) {
-			if (canvasData_->at((canvasWidth_ * leftY) + leftX - 1) != col) {
+			if (canvasData_->at((canvasWidth_ * leftY) + leftX - 1) != beforeColor) {
 				break;
 			}
 			leftX--;
 		}
 		for (i = leftX; i <= rightX; i++) {
-			canvasData_->at((canvasWidth_ * leftY) + i) = paintCol;
+			canvasData_->at((canvasWidth_ * leftY) + i) = paintColor;
 		}
 
 		if (leftY - 1 >= 0) {
-			ScanLine(leftX, rightX, leftY - 1, col);
+			ScanLine(leftX, rightX, leftY - 1, beforeColor);
 		}
 		if (leftY + 1 <= canvasHeight_ - 1) {
-			ScanLine(leftX, rightX, leftY + 1, col);
+			ScanLine(leftX, rightX, leftY + 1, beforeColor);
 		}
-	} while (sIdx != eIdx);
+	} while (StartIdx != EndIdx);
 
-	sIdx = buff;
-	eIdx = buff + 1;
-	sIdx->sx = x;
-	sIdx->sy = y;
+	StartIdx = buff;
+	EndIdx = buff + 1;
+	StartIdx->sx = x;
+	StartIdx->sy = y;
 
 	do {
-		leftX = rightX = sIdx->sx;
-		rightY = sIdx->sy;
-		if (++sIdx == &buff[MaxBuff]) {
-			sIdx = buff;
+		leftX = rightX = StartIdx->sx;
+		rightY = StartIdx->sy;
+		if (++StartIdx == &buff[MaxBuff]) {
+			StartIdx = buff;
 		}
 
-		if (canvasData_->at((canvasWidth_ * rightY) + leftX) != col) {
+		if (canvasData_->at((canvasWidth_ * rightY) + leftX) != beforeColor) {
 			continue;
 		}
 		while (rightX < canvasWidth_ - 1) {
-			if (canvasData_->at((canvasWidth_ * rightY) + rightX + 1) != col) {
+			if (canvasData_->at((canvasWidth_ * rightY) + rightX + 1) != beforeColor) {
 				break;
 			}
 			rightX++;
 		}
 		while (leftX > 0) {
-			if (canvasData_->at((canvasWidth_ * rightY) + leftX - 1) != col) {
+			if (canvasData_->at((canvasWidth_ * rightY) + leftX - 1) != beforeColor) {
 				break;
 			}
 			leftX--;
 		}
 		for (i = leftX; i <= rightX; i++) {
-			canvasData_->at((canvasWidth_ * rightY) + i) = paintCol;
+			canvasData_->at((canvasWidth_ * rightY) + i) = paintColor;
 		}
 
 		if (leftY - 1 >= 0) {
-			ScanLine(leftX, rightX, rightY - 1, paintCol);
+			ScanLine(leftX, rightX, rightY - 1, paintColor);
 		}
 		if (leftY + 1 <= canvasHeight_ - 1) {
-			ScanLine(leftX, rightX, rightY + 1, paintCol);
+			ScanLine(leftX, rightX, rightY + 1, paintColor);
 		}
-	} while (sIdx != eIdx);
-	//canvasData_->at((canvasHeight_ * y) + x) = paintCol;
+	} while (StartIdx != EndIdx);
 }

@@ -114,7 +114,7 @@ public:
 
 private:
 	static constexpr int MaxBuff = 2000;
-	struct BufferStr* sIdx{}, * eIdx{};
+	struct BufferStr* StartIdx{}, * EndIdx{};
 	BufferStr buff[MaxBuff]{};
 
 
